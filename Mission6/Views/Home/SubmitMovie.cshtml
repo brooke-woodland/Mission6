@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Mission6.Models.SubmitMovie
+
+<h1> Submit a Movie</h1>
+<form method="post">
+    <label>Title:</label>
+    <input asp-for="Title" type="text" required />
+    <br />
+    <label>Director:</label>
+    <input asp-for="Director" type="text" required />
+    <br />
+    <label>Year:</label>
+    <input asp-for="ReleaseYear" type="text" required />
+    <br />
+    <label>Category:</label>
+    <input asp-for="Category" type="text" required />
+    <br />
+    <label>Rating:</label>
+    <select asp-for="Rating" required>
+        <option value="G">G</option>
+        <option value="PG">PG</option>
+        <option value="PG-13">PG-13</option>
+        <option value="R">R</option>
+    </select>
+    <br />
+    <label>Edited</label>
+    <select asp-for="Edited">
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+    </select>
+    <br />
+    <label>Notes:</label>
+    <textarea asp-for="Notes" maxlength=25></textarea>
+    <br />
+    <label>Lent to:</label>
+    <input asp-for="LentTo" type="text" />
+    <br />
+    <button type="submit"> Submit Movie</button>
+</form>
