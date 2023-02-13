@@ -6,8 +6,10 @@
 @model Mission6.Models.SubmitMovie
 
 <h1> Submit a Movie</h1>
+<!--method= post calls the HttpPost IActionResult-->
 <form method="post">
     <label>Title:</label>
+    <!--asp-for connects to the variables in the SubmitMovie model-->
     <input asp-for="Title" type="text" required />
     <br />
     <label>Director:</label>
@@ -39,5 +41,6 @@
     <label>Lent to:</label>
     <input asp-for="LentTo" type="text" />
     <br />
+    <!--submit calls the post method-->
     <button type="submit"> Submit Movie</button>
 </form>

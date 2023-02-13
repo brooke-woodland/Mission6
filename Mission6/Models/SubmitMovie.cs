@@ -8,6 +8,7 @@ namespace Mission6.Models
 {
     public class SubmitMovie
     {
+        // make the MovieID the primary key
         [Key]
         [Required]
         public int MovieID { get; set; }

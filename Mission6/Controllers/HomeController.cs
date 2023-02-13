@@ -32,14 +32,18 @@ namespace Mission6.Controllers
         [HttpGet]
         public IActionResult SubmitMovie()
         {
+            //this view is shown when this action is first called
             return View();
         }
 
         [HttpPost]
         public IActionResult SubmitMovie(SubmitMovie response)
         {
+            //saves the data into the database
             _MovieContext.Add(response);
             _MovieContext.SaveChanges();
+
+            //shows the user the confirmation page
             return View("Confirmation");
         }
 

@@ -18,6 +18,7 @@ namespace Mission6.Models
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
+            //seeding the database
             mb.Entity<SubmitMovie>().HasData(
                 new SubmitMovie
                 {

@@ -29,6 +29,7 @@ namespace Mission6
 
             services.AddDbContext<MovieSubmissionContext>(options =>
            {
+               //connects to the database. not sure how yet
                options.UseSqlite(Configuration["ConnectionStrings:dbConnection"]);
            });
         }
