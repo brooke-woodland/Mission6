@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mission6.Models;
 using System;
@@ -11,11 +12,10 @@ namespace Mission6.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        
         private MovieSubmissionContext _MovieContext { get; set; }
-        public HomeController(ILogger<HomeController> logger, MovieSubmissionContext x)
+        public HomeController( MovieSubmissionContext x)
         {
-            _logger = logger;
             _MovieContext = x;
         }
 
@@ -32,30 +32,72 @@ namespace Mission6.Controllers
         [HttpGet]
         public IActionResult SubmitMovie()
         {
+
+            ViewBag.Categories= _MovieContext.categories.ToList();
+
             //this view is shown when this action is first called
-            return View();
+            return View("SubmitMovie", new SubmitMovie());
+            //return View();
         }
 
         [HttpPost]
         public IActionResult SubmitMovie(SubmitMovie response)
         {
-            //saves the data into the database
-            _MovieContext.Add(response);
+            if (ModelState.IsValid)
+            {
+                // saves the data into the database
+                _MovieContext.Add(response);
+                _MovieContext.SaveChanges();
+
+                //shows the user the confirmation page
+                return View("Confirmation");
+            }
+            else
+            {
+                ViewBag.Categories = _MovieContext.categories.ToList();
+                return View(response);  
+            }
+
+        }
+
+        public IActionResult MovieTable()
+        {
+            var submissions = _MovieContext.responses.Include(x => x.Category)
+                .ToList();
+
+            return View(submissions);
+        }
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            ViewBag.Categories = _MovieContext.categories.ToList();
+
+            var submission = _MovieContext.responses.Single(x => x.MovieID == id);
+
+            return View("SubmitMovie", submission);
+
+        }
+        [HttpPost]
+        public IActionResult Edit(SubmitMovie blah)
+        {
+            _MovieContext.Update(blah);
             _MovieContext.SaveChanges();
-
-            //shows the user the confirmation page
-            return View("Confirmation");
+            return RedirectToAction("MovieTable");
         }
 
-        public IActionResult Privacy()
+        [HttpGet]
+        public IActionResult Delete(int id)
         {
-            return View();
+            var submission = _MovieContext.responses.Single(x => x.MovieID == id);
+            return View(submission);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpPost]
+        public IActionResult Delete(SubmitMovie ar)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            _MovieContext.responses.Remove(ar);
+            _MovieContext.SaveChanges();
+            return RedirectToAction("MovieTable");
         }
     }
 }

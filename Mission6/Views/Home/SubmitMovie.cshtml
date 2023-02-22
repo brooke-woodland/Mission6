@@ -9,6 +9,7 @@
 <h1> Submit a Movie</h1>
 <!--method= post calls the HttpPost IActionResult-->
 <form method="post">
+    <input asp-for="MovieID" type="hidden"/>
     <label>Title:</label>
     <!--asp-for connects to the variables in the SubmitMovie model-->
     <input asp-for="Title" type="text" required />
@@ -20,7 +21,13 @@
     <input asp-for="ReleaseYear" type="text" required />
     <br />
     <label>Category:</label>
-    <input asp-for="Category" type="text" required />
+    <select asp-for="CategoryId">
+        <option value="">Select a Category</option>
+        @foreach (Category c in ViewBag.Categories)
+            {
+                <option value="@c.CategoryId">@c.CategoryName</option>
+            }
+    </select>
     <br />
     <label>Rating:</label>
     <select asp-for="Rating" required>
@@ -32,8 +39,8 @@
     <br />
     <label>Edited</label>
     <select asp-for="Edited">
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
+        <option value=true>Yes</option>
+        <option value=false>No</option>
     </select>
     <br />
     <label>Notes:</label>
@@ -45,3 +52,5 @@
     <!--submit calls the post method-->
     <button type="submit"> Submit Movie</button>
 </form>
+<br /><br />
+<div asp-validation-summary="All"></div>

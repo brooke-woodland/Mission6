@@ -15,16 +15,59 @@ namespace Mission6.Models
         }
 
         public DbSet<SubmitMovie> responses { get; set; }
+        public DbSet<Category> categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
+            mb.Entity<Category>().HasData(
+                new Category
+                {
+                    CategoryId = 1,
+                    CategoryName = "Action/Adventure"
+                },
+                new Category
+                {
+                    CategoryId = 2,
+                    CategoryName = "Comedy"
+                },
+                new Category
+                {
+                    CategoryId = 3,
+                    CategoryName = "Drama"
+                },
+                new Category
+                {
+                    CategoryId = 4,
+                    CategoryName = "Family"
+                },
+                new Category
+                {
+                    CategoryId = 5,
+                    CategoryName = "Horror/ Suspense"
+                },
+                new Category
+                {
+                    CategoryId = 6,
+                    CategoryName = "Miscellaneous"
+                },
+                new Category
+                {
+                    CategoryId = 7,
+                    CategoryName = "Televison"
+                },
+                new Category
+                {
+                    CategoryId = 8,
+                    CategoryName = "VHS"
+                }
+                );
             //seeding the database
             mb.Entity<SubmitMovie>().HasData(
                 new SubmitMovie
                 {
                     MovieID = 1,
                     Title = "You've Got Mail",
-                    Category="Romantic Comedy",
+                    CategoryId=2,
                     Director= "Nora Ephron",
                     ReleaseYear=1998,
                     Rating="PG"
@@ -33,7 +76,7 @@ namespace Mission6.Models
                 {
                     MovieID = 2,
                     Title = "Call Me By Your Name",
-                    Category = "Drama",
+                    CategoryId = 3,
                     Director = "Luca Guadagnino",
                     ReleaseYear = 2017,
                     Rating = "R"
@@ -42,7 +85,7 @@ namespace Mission6.Models
                 {
                     MovieID =3,
                     Title = "While You Were Sleeping",
-                    Category = "Romantic Comedy",
+                    CategoryId = 2,
                     Director = "Jon Turteltaub",
                     ReleaseYear = 1995,
                     Rating = "PG"

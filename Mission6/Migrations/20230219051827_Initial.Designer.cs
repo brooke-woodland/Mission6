@@ -8,7 +8,7 @@ using Mission6.Models;
 namespace Mission6.Migrations
 {
     [DbContext(typeof(MovieSubmissionContext))]
-    [Migration("20230213164455_Initial")]
+    [Migration("20230219051827_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,14 +17,70 @@ namespace Mission6.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.32");
 
+            modelBuilder.Entity("Mission6.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Action/Adventure"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Comedy"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Drama"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            CategoryName = "Family"
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            CategoryName = "Horror/ Suspense"
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            CategoryName = "Miscellaneous"
+                        },
+                        new
+                        {
+                            CategoryId = 7,
+                            CategoryName = "Televison"
+                        },
+                        new
+                        {
+                            CategoryId = 8,
+                            CategoryName = "VHS"
+                        });
+                });
+
             modelBuilder.Entity("Mission6.Models.SubmitMovie", b =>
                 {
                     b.Property<int>("MovieID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
                         .HasColumnType("TEXT");
@@ -49,13 +105,15 @@ namespace Mission6.Migrations
 
                     b.HasKey("MovieID");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("responses");
 
                     b.HasData(
                         new
                         {
                             MovieID = 1,
-                            Category = "Romantic Comedy",
+                            CategoryId = 2,
                             Director = "Nora Ephron",
                             Edited = false,
                             Rating = "PG",
@@ -65,7 +123,7 @@ namespace Mission6.Migrations
                         new
                         {
                             MovieID = 2,
-                            Category = "Drama",
+                            CategoryId = 3,
                             Director = "Luca Guadagnino",
                             Edited = false,
                             Rating = "R",
@@ -75,13 +133,22 @@ namespace Mission6.Migrations
                         new
                         {
                             MovieID = 3,
-                            Category = "Romantic Comedy",
+                            CategoryId = 2,
                             Director = "Jon Turteltaub",
                             Edited = false,
                             Rating = "PG",
                             ReleaseYear = 1995,
                             Title = "While You Were Sleeping"
                         });
+                });
+
+            modelBuilder.Entity("Mission6.Models.SubmitMovie", b =>
+                {
+                    b.HasOne("Mission6.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
