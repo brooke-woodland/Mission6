@@ -62,6 +62,7 @@ namespace Mission6.Controllers
 
         public IActionResult MovieTable()
         {
+            //allows the categories to show up
             var submissions = _MovieContext.responses.Include(x => x.Category)
                 .ToList();
 
@@ -72,6 +73,7 @@ namespace Mission6.Controllers
         {
             ViewBag.Categories = _MovieContext.categories.ToList();
 
+            // specify which record is being deleted by the id
             var submission = _MovieContext.responses.Single(x => x.MovieID == id);
 
             return View("SubmitMovie", submission);
@@ -88,6 +90,7 @@ namespace Mission6.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
+            // specify which record is being deleted by the id
             var submission = _MovieContext.responses.Single(x => x.MovieID == id);
             return View(submission);
         }
